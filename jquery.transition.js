@@ -1,15 +1,15 @@
-/*
+/*!
 
 jQuery CSS transition plugin
 
-URL: https://github.com/peteboere/jquery-transition
-Copyright: Copyright 2012 Pete Boere
-License: http://www.opensource.org/licenses/mit-license.php (MIT)
+Project page: https://github.com/peteboere/jquery-transition
+License: http://www.opensource.org/licenses/mit-license.php
+Copyright: (c) 2012 Pete Boere
 
 
 DESCRIPTION:
 ------------
-Provides CSS transitions with an API similar to jQuery.animate()
+CSS transitions with an API similar to jQuery.animate()
 Falls back to jQuery.animate() for browsers that don't support CSS transitions
 Vendor prefixes not required
 
@@ -250,9 +250,9 @@ var plugin = $.fn.transition = function ( map, duration, easing, callback ) {
 	return self;
 };
 
-// Make event and property available for external re-use
-plugin.event = transitionEndEvent;
-plugin.property = transitionProperty;
+// Make end event and vendor property detection available for external re-use
+plugin.transitionEndEvent = transitionEndEvent;
+plugin.getVendorStyleProperty = getVendorStyleProperty;
 
 
 })( jQuery );
