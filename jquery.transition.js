@@ -155,11 +155,12 @@ var plugin = $.fn.transition = function ( map, duration, easing, callback ) {
 	each( map, function ( property, value ) {
 		var _property = getVendorStyleProperty( property ),
 			_value = value;
-		// If the value is not a number we'll use jQuery.css() to evaluate
-		if ( typeof value === 'number' ) {
+		// If the value is a number, but not a 'cssNumber' append 'px' 
+		if ( typeof value === 'number' && ! $.cssNumber[ _property ] ) {
 			_value += 'px';
 		}
-		else {
+		// If the value is not a 'cssNumber' pass it through jQuery.css()
+		else if ( ! $.cssNumber[ _property ] ) {
 			_value = $testElem.css( _property, value ).css( _property );
 		}
 		filteredMap[ _property ] = _value;
