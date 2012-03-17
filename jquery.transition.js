@@ -127,7 +127,15 @@ Relative property values (e.g.'+=100') are not supported when using jQuery versi
 			'msTransition'     : 'MSTransitionEnd'
 		},
 		
-		transitionEndEvent = transitionProperty && transitionEndEvents[ transitionProperty ];
+		transitionEndEvent = transitionProperty && transitionEndEvents[ transitionProperty ],
+
+		// Console love
+		noop = function () {},
+		console = window.console || { log: noop, warn: noop },
+		
+		warnMsg = function ( msg ) {
+			console.warn( '$.fn.transition: ' + msg );
+		};
 
 
 var plugin = $.fn.transition = function ( map, duration, easing, callback ) {
@@ -221,20 +229,34 @@ var plugin = $.fn.transition = function ( map, duration, easing, callback ) {
 
 		// Cache the transition value outside the loop 
 	var transitionValue = [ _duration + 'ms', transitionEasing ].join( ' ' ),
-		// Namespace the transition endEvent
+		// Namespace the transitionEnd event
 		nsTransitionEndEvent = transitionEndEvent + '.transition';
 
 	// Apply the transition to the collection
 	filteredSelf.each( function () {
+
 		var el = this,
 			$el = $( this ),
 			style = el.style,
+
+			// We need a fallback timer to invoke 'done' incase the
+			// transitionEnd event never fires for some reason
+			doneDone = false,
+			fallbackTimer = null,
+
 			done = function () {
+				// Clear the fallback timeout, and flag the callback as being complete
+				// in-case transitionEnd decides to fire after the fallback timeout
+				clearTimeout( fallbackTimer );
+				if ( doneDone ) { return; }
+				doneDone = true;
+				
 				// Unset the transition property and remove the endEvent listener
 				$el.unbind( nsTransitionEndEvent );
 				style[ transitionProperty ] = '';
+
 				// Like jQuery.animate() callback fires once for every element
-				// Apply the callback bound to the element  
+				// Apply the callback bound to the element 
 				callback && callback.call( el );
 			};
 
@@ -246,6 +268,12 @@ var plugin = $.fn.transition = function ( map, duration, easing, callback ) {
 		each( filteredMap, function ( property, value ) {
 			style[ property ] = value;
 		});
+		
+		// Set the fallback timer, add delay to give transitionEnd event the best chance to fire first
+		fallbackTimer = setTimeout( function () {
+			warnMsg( 'Used fallback timer' );
+			done();
+		}, _duration + 40 );
 	});
 
 	return self;
