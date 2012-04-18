@@ -134,7 +134,9 @@ Relative property values (e.g.'+=100') are not supported when using jQuery versi
 		console = window.console || { log: noop, warn: noop },
 		
 		warnMsg = function ( msg ) {
-			console.warn( '$.fn.transition: ' + msg );
+			if ( plugin.DEBUG ) {
+				console.warn( '$.fn.transition: ' + msg );
+			}
 		};
 
 
