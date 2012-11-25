@@ -1,130 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8"/>
-	<title>jQuery transition plugin demo</title>
-	<script src="jquery-1.7.1.js"></script>
-	<script src="../jquery.transition.js"></script>
-	<style>
+    <meta charset="utf-8"/>
+    <title>jQuery transition plugin demo</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="../jquery.transition.js"></script>
+    <style>
 
-	body, div {
-		margin:0;
-		padding:0;
-		}
+    body, div {
+        margin:0;
+        padding:0;
+        }
 
-	body {
-		text-align:center;
-		padding-top:20px;
-		background: #222;
-		background: -webkit-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
-		background:    -moz-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
-		background:     -ms-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
-		background:      -o-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
-		background:         radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
-		}
+    body {
+        text-align:center;
+        padding-top:20px;
+        background: #222;
+        background: -webkit-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
+        background:    -moz-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
+        background:     -ms-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
+        background:      -o-radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
+        background:         radial-gradient( 50% 50%, circle cover, #333 0%, #111 100% );
+        }
 
-	div {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		border-radius: 50%;
-		background: #0A3A4A;
-	}
+    div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        background: #0A3A4A;
+    }
 
-	div:nth-child(5n+1) { background-color: #0A3A4A; }
-	div:nth-child(5n+2) { background-color: #196674; }
-	div:nth-child(5n+3) { background-color: #33A6B2; }
-	div:nth-child(5n+4) { background-color: #9AC836; }
-	div:nth-child(5n+5) { background-color: #D0E64B; }
+    div:nth-child(5n+1) { background-color: #0A3A4A; }
+    div:nth-child(5n+2) { background-color: #196674; }
+    div:nth-child(5n+3) { background-color: #33A6B2; }
+    div:nth-child(5n+4) { background-color: #9AC836; }
+    div:nth-child(5n+5) { background-color: #D0E64B; }
 
-	button {font-size:15px;}
+    button {font-size:15px;}
 
-	</style>
+    </style>
 </head>
 <body>
-	
+    
 <button id="the-button">Start</button>
 
 <script>
-
+alert(jQuery);
 
 var randomValue = function ( min, max, relative ) {
-		var diff = max - min,
-			offset = ( diff * Math.random() ) + min;
-		if ( relative ) {
-			offset = offset < 0 ? ('-=' + ( offset * -1 ) ) : ('+=' + offset);
-		}
-		return offset;
-	},
+        var diff = max - min,
+            offset = ( diff * Math.random() ) + min;
+        if ( relative ) {
+            offset = offset < 0 ? ('-=' + ( offset * -1 ) ) : ('+=' + offset);
+        }
+        return offset;
+    },
 
-	$button = $( '#the-button' ),
+    $button = $( '#the-button' ),
 
-	loop = false,
+    loop = false,
 
-	roundabout = function () {
-	
-		var duration = 2000,
-			transition = { 
-				transition: 'cubic-bezier(0,0,0.58,1)', 
-				animate: 'swing' 
-			},
-			soloCallback = function () {
-				if ( loop ) {
-					// Recurse
-					roundabout();
-				}
-				else {
-					// Reset position and stop
-					$( 'div' ).transition({
-						'left': '50%',
-						'top': '50%'
-					}, 
-					duration, 
-					transition );
-				}
-			},
-			callbackInvoked = false;
-	
-		$( 'div' ).each( function () {
-			$( this ).transition({ 
-				'left': randomValue( 15, 85 ) + '%',
-				'top': randomValue( 15, 85 ) + '%'
-			}, 
-			duration, 
-			transition, 
-			function () {
-				if ( ! callbackInvoked ) {
-					setTimeout( soloCallback, 80 );
-					callbackInvoked = true;
-				}
-			});
-		});
-	};
+    roundabout = function () {
+    
+        var duration = 2000,
+            transition = { 
+                transition: 'cubic-bezier(0,0,0.58,1)', 
+                animate: 'swing' 
+            },
+            soloCallback = function () {
+                if ( loop ) {
+                    // Recurse
+                    roundabout();
+                }
+                else {
+                    // Reset position and stop
+                    $( 'div' ).transition({
+                        'left': '50%',
+                        'top': '50%'
+                    }, 
+                    duration, 
+                    transition );
+                }
+            },
+            callbackInvoked = false;
+    
+        $( 'div' ).each( function () {
+            $( this ).transition({ 
+                'left': randomValue( 15, 85 ) + '%',
+                'top': randomValue( 15, 85 ) + '%'
+            }, 
+            duration, 
+            transition, 
+            function () {
+                if ( ! callbackInvoked ) {
+                    setTimeout( soloCallback, 80 );
+                    callbackInvoked = true;
+                }
+            });
+        });
+    };
 
 
 // The toggle
 $button.click( function () {
-	$( this ).html( loop ? 'Start' : 'Reset' );
-	if ( ! loop ) {
-		roundabout();
-	}
-	loop = !loop;
+    $( this ).html( loop ? 'Start' : 'Reset' );
+    if ( ! loop ) {
+        roundabout();
+    }
+    loop = !loop;
 });
 
 
 // Creating the circles
 var circles = 50,
-	increment = 2,
-	startWidth = increment * circles;
-	
+    increment = 2,
+    startWidth = increment * circles;
+    
 while ( --circles ) {
-	var face = startWidth -= increment; 
-	$('body').append( $( '<div>' ).css({
-		width: face,
-		height: face,
-		marginTop: -(face/2),
-		marginLeft: -(face/2)
-	}));
+    var face = startWidth -= increment; 
+    $('body').append( $( '<div>' ).css({
+        width: face,
+        height: face,
+        marginTop: -(face/2),
+        marginLeft: -(face/2)
+    }));
 }
 
 </script>
