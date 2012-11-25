@@ -1,0 +1,6 @@
+{
+  "name": "jquery.transition",
+  "dependencies": {
+    "jquery": "~1.5.2"
+  }
+}
