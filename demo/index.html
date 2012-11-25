@@ -42,11 +42,10 @@
     </style>
 </head>
 <body>
-    
+
 <button id="the-button">Start</button>
 
 <script>
-alert(jQuery);
 
 var randomValue = function ( min, max, relative ) {
         var diff = max - min,
@@ -62,11 +61,11 @@ var randomValue = function ( min, max, relative ) {
     loop = false,
 
     roundabout = function () {
-    
+
         var duration = 2000,
-            transition = { 
-                transition: 'cubic-bezier(0,0,0.58,1)', 
-                animate: 'swing' 
+            transition = {
+                transition: 'cubic-bezier(0,0,0.58,1)',
+                animate: 'swing'
             },
             soloCallback = function () {
                 if ( loop ) {
@@ -78,20 +77,20 @@ var randomValue = function ( min, max, relative ) {
                     $( 'div' ).transition({
                         'left': '50%',
                         'top': '50%'
-                    }, 
-                    duration, 
+                    },
+                    duration,
                     transition );
                 }
             },
             callbackInvoked = false;
-    
+
         $( 'div' ).each( function () {
-            $( this ).transition({ 
+            $( this ).transition({
                 'left': randomValue( 15, 85 ) + '%',
                 'top': randomValue( 15, 85 ) + '%'
-            }, 
-            duration, 
-            transition, 
+            },
+            duration,
+            transition,
             function () {
                 if ( ! callbackInvoked ) {
                     setTimeout( soloCallback, 80 );
@@ -116,9 +115,9 @@ $button.click( function () {
 var circles = 50,
     increment = 2,
     startWidth = increment * circles;
-    
+
 while ( --circles ) {
-    var face = startWidth -= increment; 
+    var face = startWidth -= increment;
     $('body').append( $( '<div>' ).css({
         width: face,
         height: face,
