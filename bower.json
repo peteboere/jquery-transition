@@ -1,0 +1,12 @@
+{
+  "name": "jquery.transition",
+  "version": "0.9.1",
+  "dependencies": {
+    "jquery": ">= 1.5.2"
+  },
+  "homepage": "https://github.com/peteboere/jquery-transition",
+  "authors": [
+    "Pete Boere <pete@the-echoplex.net>"
+  ],
+  "license": "MIT"
+}
